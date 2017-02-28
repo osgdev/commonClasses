@@ -14,11 +14,12 @@ public class ProductionConfiguration {
 
 	private String filename, englishFleet, welshFleet, englishMulti, welshMulti, englishUnsorted, welshUnsorted,
 		englishSorted, welshSorted, englishClerical, welshClerical, englishReject, welshReject, englishReprint,
-		welshReprint, mailingSite, minimumMailsort, mailsortProduct, englishSorting, welshSorting;
+		welshReprint, mailingSite, minimumMailsort, mailsortProduct, englishSorting, welshSorting,envelopeType;
 	private int batchMaxEnglishFleet, batchMaxWelshFleet,batchMaxEnglishMulti, batchMaxWelshMulti, 
 		batchMaxEnglishUnsorted, batchMaxWelshUnsorted,batchMaxEnglishSorted, batchMaxWelshSorted, 
 		batchMaxEnglishClerical, batchMaxWelshClerical, batchMaxEnglishReject, batchMaxWelshReject, 
-		batchMaxEnglishReprint, batchMaxWelshReprint, batchMaxEnglishSorting , batchMaxWelshSorting;
+		batchMaxEnglishReprint, batchMaxWelshReprint, batchMaxEnglishSorting , batchMaxWelshSorting,
+		traySize;
 	
 	
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -107,6 +108,10 @@ public class ProductionConfiguration {
 			    		this.batchMaxEnglishSorting=Integer.parseInt(value);
 			    	} else if ( "batchMax.welsh.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshSorting=Integer.parseInt(value);
+			    	} else if ( "traySize".equalsIgnoreCase(attribute) ){
+			    		this.traySize=Integer.parseInt(value);
+			    	} else if ( "envelopeType".equalsIgnoreCase(attribute) ){
+			    		this.envelopeType=value;
 			    	}
 		    	}
 		    }
@@ -444,6 +449,22 @@ public class ProductionConfiguration {
 
 	public void setBatchMaxWelshSorting(int batchMaxWelshSorting) {
 		this.batchMaxWelshSorting = batchMaxWelshSorting;
+	}
+
+	public int getTraySize() {
+		return traySize;
+	}
+
+	public void setTraySize(int traySize) {
+		this.traySize = traySize;
+	}
+
+	public String getEnvelopeType() {
+		return envelopeType;
+	}
+
+	public void setEnvelopeType(String envelopeType) {
+		this.envelopeType = envelopeType;
 	}
 	
 	

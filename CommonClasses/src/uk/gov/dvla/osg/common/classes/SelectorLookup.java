@@ -34,9 +34,9 @@ public class SelectorLookup {
 			    	String[] array = line.split("\\|");
 			    	LOGGER.debug("Split line '{}' into {} parts",line,array.length);
 			    	if( !("SELECTOR".equals(array[0].trim())) ){
-			    		LOGGER.debug("ref='{}' file={} batchMax={} prd={} post={} pres={}",array[0].trim(),file,array[1].trim(),array[2].trim(),array[3].trim(),array[4].trim());
+			    		LOGGER.debug("ref='{}' file={} prd={} post={} pres={}",array[0].trim(),file,array[1].trim(),array[2].trim(),array[3].trim());
 			    		SelectorLookup sel = new SelectorLookup(file, array[0].trim(),
-			    				array[2].trim(),array[3].trim(),array[4].trim());
+			    				array[1].trim(),array[2].trim(),array[3].trim());
 			    		
 			    		LOGGER.debug("Selector object created succesfully.");
 			    		lookup.put(array[0].trim(), sel );
@@ -44,6 +44,7 @@ public class SelectorLookup {
 			    	}
 			    	
 			    }
+			    br.close();
 			} catch (FileNotFoundException e) {
 				LOGGER.fatal("Lookup file error: '{}'",e.getMessage());
 				System.exit(1);
