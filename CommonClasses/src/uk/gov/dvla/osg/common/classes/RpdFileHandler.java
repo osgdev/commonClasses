@@ -77,8 +77,14 @@ public class RpdFileHandler {
 	public void write(List<String> arr){
 		String res = "";
 		String delim = "" + (char)Integer.parseInt("09",16);
+		int i = 1;
 		for(String str : arr){
-			res = res + str + delim;
+			if(arr.size()== i){
+				res = res + str;
+			}else{
+				res = res + str + delim;
+			}
+			i ++;
 		}
 		pw.println(res);
 	}
