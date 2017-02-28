@@ -23,6 +23,7 @@ public class Customer {
 		this.msc = msc;
 		this.eog="";
 		this.eot="";
+		
 	};
 	
 	public String getEnvelope() {
