@@ -14,7 +14,9 @@ public class ProductionConfiguration {
 
 	private String filename, englishFleet, welshFleet, englishMulti, welshMulti, englishUnsorted, welshUnsorted,
 		englishSorted, welshSorted, englishClerical, welshClerical, englishReject, welshReject, englishReprint,
-		welshReprint, mailingSite, minimumMailsort, mailsortProduct, englishSorting, welshSorting,envelopeType;
+		welshReprint, mailingSite, minimumMailsort, mailsortProduct, englishSorting, welshSorting, envelopeType,
+		envelopeEnglishUnsorted, envelopeWelshUnsorted,	envelopeEnglishOcr, envelopeWelshOcr, envelopeEnglishMm,
+		envelopeWelshMm;
 	private int batchMaxEnglishFleet, batchMaxWelshFleet,batchMaxEnglishMulti, batchMaxWelshMulti, 
 		batchMaxEnglishUnsorted, batchMaxWelshUnsorted,batchMaxEnglishSorted, batchMaxWelshSorted, 
 		batchMaxEnglishClerical, batchMaxWelshClerical, batchMaxEnglishReject, batchMaxWelshReject, 
@@ -112,6 +114,18 @@ public class ProductionConfiguration {
 			    		this.traySize=Integer.parseInt(value);
 			    	} else if ( "envelopeType".equalsIgnoreCase(attribute) ){
 			    		this.envelopeType=value;
+			    	} else if ( "envelope.english.unsorted".equalsIgnoreCase(attribute) ){
+			    		this.envelopeEnglishUnsorted=value;
+			    	} else if ( "envelope.welsh.unsorted".equalsIgnoreCase(attribute) ){
+			    		envelopeWelshUnsorted=value;
+			    	} else if ( "envelope.english.ocr".equalsIgnoreCase(attribute) ){
+			    		envelopeEnglishOcr=value;
+			    	} else if ( "envelope.welsh.ocr".equalsIgnoreCase(attribute) ){
+			    		envelopeWelshOcr=value;
+			    	} else if ( "envelope.english.mm".equalsIgnoreCase(attribute) ){
+			    		envelopeEnglishMm=value;
+			    	} else if ( "envelope.welsh.mm".equalsIgnoreCase(attribute) ){
+			    		envelopeWelshMm=value;
 			    	}
 		    	}
 		    }
@@ -465,6 +479,54 @@ public class ProductionConfiguration {
 
 	public void setEnvelopeType(String envelopeType) {
 		this.envelopeType = envelopeType;
+	}
+
+	public String getEnvelopeEnglishUnsorted() {
+		return envelopeEnglishUnsorted;
+	}
+
+	public void setEnvelopeEnglishUnsorted(String envelopeEnglishUnsorted) {
+		this.envelopeEnglishUnsorted = envelopeEnglishUnsorted;
+	}
+
+	public String getEnvelopeWelshUnsorted() {
+		return envelopeWelshUnsorted;
+	}
+
+	public void setEnvelopeWelshUnsorted(String envelopeWelshUnsorted) {
+		this.envelopeWelshUnsorted = envelopeWelshUnsorted;
+	}
+
+	public String getEnvelopeEnglishOcr() {
+		return envelopeEnglishOcr;
+	}
+
+	public void setEnvelopeEnglishOcr(String envelopeEnglishOcr) {
+		this.envelopeEnglishOcr = envelopeEnglishOcr;
+	}
+
+	public String getEnvelopeWelshOcr() {
+		return envelopeWelshOcr;
+	}
+
+	public void setEnvelopeWelshOcr(String envelopeWelshOcr) {
+		this.envelopeWelshOcr = envelopeWelshOcr;
+	}
+
+	public String getEnvelopeEnglishMm() {
+		return envelopeEnglishMm;
+	}
+
+	public void setEnvelopeEnglishMm(String envelopeEnglishMm) {
+		this.envelopeEnglishMm = envelopeEnglishMm;
+	}
+
+	public String getEnvelopeWelshMm() {
+		return envelopeWelshMm;
+	}
+
+	public void setEnvelopeWelshMm(String envelopeWelshMm) {
+		this.envelopeWelshMm = envelopeWelshMm;
 	}
 	
 	

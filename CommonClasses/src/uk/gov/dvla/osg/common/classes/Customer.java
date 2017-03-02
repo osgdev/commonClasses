@@ -4,12 +4,13 @@ public class Customer {
 
 	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
 	fleetNo, paperSize, msc, sortField, eog, dps, name1, name2, add1, add2, add3, add4, add5,
-	postcode, insertRef, envelope, mmBarcodeContent, eot;
+	postcode, insertRef, envelope, mmBarcodeContent, eot, product;
 	private int sequence, batchSequence, noOfPages;
 	float weight, size;
-	private Integer presentationPriority;
+	private Integer presentationPriority, originalIdx;
 	
-	public Customer(String docRef, String sortField, String ref, String lang, String stationery, String batchType, String subBatch, String fleetNo, String groupId, String paperSize, String msc){
+	public Customer(Integer originalIdx, String docRef, String sortField, String ref, String lang, String stationery, String batchType, String subBatch, String fleetNo, String groupId, String paperSize, String msc){
+		this.originalIdx=originalIdx;
 		this.docRef=docRef;
 		this.sortField=sortField;
 		this.selectorRef=ref;
@@ -26,6 +27,24 @@ public class Customer {
 		
 	};
 	
+	
+	
+	public String getProduct() {
+		return product;
+	}
+
+
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+
+
+	public Integer getOriginalIdx() {
+		return originalIdx;
+	}
+
 	public String getEnvelope() {
 		return envelope;
 	}
