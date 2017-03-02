@@ -21,7 +21,8 @@ public class ProductionConfiguration {
 		batchMaxEnglishUnsorted, batchMaxWelshUnsorted,batchMaxEnglishSorted, batchMaxWelshSorted, 
 		batchMaxEnglishClerical, batchMaxWelshClerical, batchMaxEnglishReject, batchMaxWelshReject, 
 		batchMaxEnglishReprint, batchMaxWelshReprint, batchMaxEnglishSorting , batchMaxWelshSorting,
-		traySize;
+		traySize, groupMaxEnglishMulti, groupMaxEnglishFleet, groupMaxEnglishClerical, groupMaxWelshMulti,
+		groupMaxWelshFleet, groupMaxWelshClerical;
 	
 	
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -126,6 +127,18 @@ public class ProductionConfiguration {
 			    		envelopeEnglishMm=value;
 			    	} else if ( "envelope.welsh.mm".equalsIgnoreCase(attribute) ){
 			    		envelopeWelshMm=value;
+			    	} else if ( "groupMax.english.multi".equalsIgnoreCase(attribute) ){
+			    		groupMaxEnglishMulti=Integer.parseInt(value);
+			    	} else if ( "groupMax.english.fleet".equalsIgnoreCase(attribute) ){
+			    		groupMaxEnglishFleet=Integer.parseInt(value);
+			    	} else if ( "groupMax.english.clerical".equalsIgnoreCase(attribute) ){
+			    		groupMaxEnglishClerical=Integer.parseInt(value);
+			    	} else if ( "groupMax.welsh.multi".equalsIgnoreCase(attribute) ){
+			    		groupMaxWelshMulti=Integer.parseInt(value);
+			    	} else if ( "groupMax.welsh.fleet".equalsIgnoreCase(attribute) ){
+			    		groupMaxWelshFleet=Integer.parseInt(value);
+			    	} else if ( "groupMax.welsh.clerical".equalsIgnoreCase(attribute) ){
+			    		groupMaxWelshClerical=Integer.parseInt(value);
 			    	}
 		    	}
 		    }
@@ -527,6 +540,54 @@ public class ProductionConfiguration {
 
 	public void setEnvelopeWelshMm(String envelopeWelshMm) {
 		this.envelopeWelshMm = envelopeWelshMm;
+	}
+
+	public int getGroupMaxEnglishMulti() {
+		return groupMaxEnglishMulti;
+	}
+
+	public void setGroupMaxEnglishMulti(int groupMaxEnglishMulti) {
+		this.groupMaxEnglishMulti = groupMaxEnglishMulti;
+	}
+
+	public int getGroupMaxEnglishFleet() {
+		return groupMaxEnglishFleet;
+	}
+
+	public void setGroupMaxEnglishFleet(int groupMaxEnglishFleet) {
+		this.groupMaxEnglishFleet = groupMaxEnglishFleet;
+	}
+
+	public int getGroupMaxEnglishClerical() {
+		return groupMaxEnglishClerical;
+	}
+
+	public void setGroupMaxEnglishClerical(int groupMaxEnglishClerical) {
+		this.groupMaxEnglishClerical = groupMaxEnglishClerical;
+	}
+
+	public int getGroupMaxWelshMulti() {
+		return groupMaxWelshMulti;
+	}
+
+	public void setGroupMaxWelshMulti(int groupMaxWelshMulti) {
+		this.groupMaxWelshMulti = groupMaxWelshMulti;
+	}
+
+	public int getGroupMaxWelshFleet() {
+		return groupMaxWelshFleet;
+	}
+
+	public void setGroupMaxWelshFleet(int groupMaxWelshFleet) {
+		this.groupMaxWelshFleet = groupMaxWelshFleet;
+	}
+
+	public int getGroupMaxWelshClerical() {
+		return groupMaxWelshClerical;
+	}
+
+	public void setGroupMaxWelshClerical(int groupMaxWelshClerical) {
+		this.groupMaxWelshClerical = groupMaxWelshClerical;
 	}
 	
 	
