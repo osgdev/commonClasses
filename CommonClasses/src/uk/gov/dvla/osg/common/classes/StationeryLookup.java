@@ -19,7 +19,6 @@ public class StationeryLookup {
 	public StationeryLookup(String filePath){
 		LOGGER.info("Creating Stationery Lookup..");
 		this.filePath=filePath;
-		LOGGER.info("File '{}' exists",filePath);
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			String line;
 		    while ((line = br.readLine()) != null) {

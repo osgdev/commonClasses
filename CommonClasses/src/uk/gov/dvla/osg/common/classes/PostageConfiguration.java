@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,12 +24,66 @@ public class PostageConfiguration {
 		mmInfoType, mmVersionId, mmMailType, mmReturnMailFlag, mmReturnMailPc, mmReserved, 
 		mmMachineable, mmAppname;
 	
+	private HashSet<String> requiredFields = new HashSet<String>();
+	
 	public PostageConfiguration(String filename){
 		this.filename=filename;
 		LOGGER.debug("Validating file '{}'",filename);
+		
+		loadRequiredFields();
+		
 		parseConfig(filename);
+		
+		if( requiredFields.size() != 0 ){
+			String missingFields = "";
+			for(String str : requiredFields){
+				missingFields = missingFields + str + ",";
+			}
+			
+			LOGGER.fatal("Missing values from '{}' are '{}'",filename,missingFields);
+			System.exit(1);
+		}
 	}
 	
+	private void loadRequiredFields() {
+		requiredFields.add("ukm.m.accNo");
+		requiredFields.add("ukm.f.accNo");
+		requiredFields.add("unsort.accNo");
+		requiredFields.add("unsort.service");
+		requiredFields.add("unsort.product");
+		requiredFields.add("unsort.format");
+		requiredFields.add("ocr.product");
+		requiredFields.add("ocr.format");
+		requiredFields.add("mm.scid");
+		requiredFields.add("mm.class");
+		requiredFields.add("mm.xmlProduct");
+		requiredFields.add("mm.xmlFormat");
+		requiredFields.add("mm.product");
+		requiredFields.add("mm.format");
+		requiredFields.add("mm.upuCountryId");
+		requiredFields.add("mm.infoType");
+		requiredFields.add("mm.versionId");
+		requiredFields.add("mm.mailType");
+		requiredFields.add("mm.returnMailFlag");
+		requiredFields.add("mm.returnMailPc");
+		requiredFields.add("mm.reserved");
+		requiredFields.add("ukm.resourcePath");
+		requiredFields.add("ukm.itemIDLookupFilename");
+		requiredFields.add("ukm.m.trayLookupFilename");
+		requiredFields.add("ukm.f.trayLookupFilename");
+		requiredFields.add("ukm.manifest.DestinationPath");
+		requiredFields.add("ukm.manifest.ArchivePath");
+		requiredFields.add("ukm.soapfile.DestinationPath");
+		requiredFields.add("ukm.soapfile.ArchivePath");
+		requiredFields.add("ukm.minimumTrayVolume");
+		requiredFields.add("ukm.minimumCompliance");
+		requiredFields.add("ukm.batchTypes");
+		requiredFields.add("ukm.consignorFileDestination");
+		requiredFields.add("ukm.consignorDestinationDepartment");
+		requiredFields.add("mm.machineable");
+		requiredFields.add("mm.appName");
+	}
+
 	private void parseConfig(String filename){
 		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
 			String line;
@@ -39,76 +94,112 @@ public class PostageConfiguration {
 			    	String value = split[1];
 			    	if( "ukm.m.accNo".equalsIgnoreCase(attribute) ){
 			    		this.ukmMAcc=value;
+			    		requiredFields.remove("ukm.m.accNo");
 			    	} else if( "ukm.f.accNo".equalsIgnoreCase(attribute) ){
 			    		this.ukmFAcc=value;
+			    		requiredFields.remove("ukm.f.accNo");
 			    	} else if( "unsort.accNo".equalsIgnoreCase(attribute) ){
 			    		this.unsortedAccountNo=value;
+			    		requiredFields.remove("unsort.accNo");
 			    	} else if( "unsort.service".equalsIgnoreCase(attribute) ){
 			    		this.unsortedService=value;
+			    		requiredFields.remove("unsort.service");
 			    	} else if( "unsort.product".equalsIgnoreCase(attribute) ){
 			    		this.unsortedProduct=value;
+			    		requiredFields.remove("unsort.product");
 			    	} else if( "unsort.format".equalsIgnoreCase(attribute) ){
 			    		this.unsortedFormat=value;
+			    		requiredFields.remove("unsort.format");
 			    	} else if( "ocr.product".equalsIgnoreCase(attribute) ){
 			    		this.ocrProduct=value;
+			    		requiredFields.remove("ocr.product");
 			    	} else if( "ocr.format".equalsIgnoreCase(attribute) ){
 			    		this.ocrFormat=value;
+			    		requiredFields.remove("ocr.format");
 			    	} else if( "mm.scid".equalsIgnoreCase(attribute) ){
 			    		this.mmScid=value;
+			    		requiredFields.remove("mm.scid");
 			    	} else if( "mm.class".equalsIgnoreCase(attribute) ){
 			    		this.mmClass=value;
+			    		requiredFields.remove("mm.class");
 			    	} else if( "mm.xmlProduct".equalsIgnoreCase(attribute) ){
 			    		this.mmXmlProduct=value;
+			    		requiredFields.remove("mm.xmlProduct");
 			    	} else if( "mm.xmlFormat".equalsIgnoreCase(attribute) ){
 			    		this.mmXmlFormat=value;
+			    		requiredFields.remove("mm.xmlFormat");
 			    	} else if( "mm.product".equalsIgnoreCase(attribute) ){
 			    		this.mmProduct=value;
+			    		requiredFields.remove("mm.product");
 			    	} else if( "mm.format".equalsIgnoreCase(attribute) ){
 			    		this.mmFormat=value;
+			    		requiredFields.remove("mm.format");
 			    	} else if( "mm.upuCountryId".equalsIgnoreCase(attribute) ){
 			    		this.mmUpuCountryId=value;
+			    		requiredFields.remove("mm.upuCountryId");
 			    	} else if( "mm.infoType".equalsIgnoreCase(attribute) ){
 			    		this.mmInfoType=value;
+			    		requiredFields.remove("mm.infoType");
 			    	} else if( "mm.versionId".equalsIgnoreCase(attribute) ){
 			    		this.mmVersionId=value;
+			    		requiredFields.remove("mm.versionId");
 			    	} else if( "mm.mailType".equalsIgnoreCase(attribute) ){
 			    		this.mmMailType=value;
+			    		requiredFields.remove("mm.mailType");
 			    	} else if( "mm.returnMailFlag".equalsIgnoreCase(attribute) ){
 			    		this.mmReturnMailFlag=value;
+			    		requiredFields.remove("mm.returnMailFlag");
 			    	} else if( "mm.returnMailPc".equalsIgnoreCase(attribute) ){
 			    		this.mmReturnMailPc=value;
+			    		requiredFields.remove("mm.returnMailPc");
 			    	} else if( "mm.reserved".equalsIgnoreCase(attribute) ){
 			    		this.mmReserved=value;
+			    		requiredFields.remove("mm.reserved");
 			    	} else if( "ukm.resourcePath".equalsIgnoreCase(attribute) ){
 			    		this.ukmResourcePath=value;
+			    		requiredFields.remove("ukm.resourcePath");
 			    	} else if( "ukm.itemIDLookupFilename".equalsIgnoreCase(attribute) ){
 			    		this.ukmItemIdLookupFile=value;
+			    		requiredFields.remove("ukm.itemIDLookupFilename");
 			    	} else if( "ukm.m.trayLookupFilename".equalsIgnoreCase(attribute) ){
 			    		this.ukmMTrayLookupFile=value;
+			    		requiredFields.remove("ukm.m.trayLookupFilename");
 			    	} else if( "ukm.f.trayLookupFilename".equalsIgnoreCase(attribute) ){
 			    		this.ukmFTrayLookupFile=value;
+			    		requiredFields.remove("ukm.f.trayLookupFilename");
 			    	} else if( "ukm.manifest.DestinationPath".equalsIgnoreCase(attribute) ){
 			    		this.ukmManifestDestination=value;
+			    		requiredFields.remove("ukm.manifest.DestinationPath");
 			    	} else if( "ukm.manifest.ArchivePath".equalsIgnoreCase(attribute) ){
 			    		this.ukmManifestArchive=value;
+			    		requiredFields.remove("ukm.manifest.ArchivePath");
 			    	} else if( "ukm.soapfile.DestinationPath".equalsIgnoreCase(attribute) ){
 			    		this.ukmSoapDestination=value;
+			    		requiredFields.remove("ukm.soapfile.DestinationPath");
 			    	} else if( "ukm.soapfile.ArchivePath".equalsIgnoreCase(attribute) ){
 			    		this.ukmSoapArchive=value;
+			    		requiredFields.remove("ukm.soapfile.ArchivePath");
 			    	} else if( "ukm.minimumTrayVolume".equalsIgnoreCase(attribute) ){
 			    		this.ukmMinimumTrayVolume=Integer.parseInt(value);
+			    		requiredFields.remove("ukm.minimumTrayVolume");
 			    	} else if( "ukm.minimumCompliance".equalsIgnoreCase(attribute) ){
 			    		this.ukmMinimumCompliance=Integer.parseInt(value);
+			    		requiredFields.remove("ukm.minimumCompliance");
 			    	} else if( "ukm.batchTypes".equalsIgnoreCase(attribute) ){
 			    		this.ukmBatchTypes=value;
+			    		requiredFields.remove("ukm.batchTypes");
 			    	} else if( "ukm.consignorFileDestination".equalsIgnoreCase(attribute) ){
 			    		ukmConsignorFileDestination=value;
+			    		requiredFields.remove("ukm.consignorFileDestination");
 			    	} else if( "ukm.consignorDestinationDepartment".equalsIgnoreCase(attribute) ){
 			    		ukmConsignorDestinationDepartment=value;
+			    		requiredFields.remove("ukm.consignorDestinationDepartment");
 			    	} else if( "mm.machineable".equalsIgnoreCase(attribute) ){
 			    		mmMachineable=value;
+			    		requiredFields.remove("mm.machineable");
 			    	} else if( "mm.appName".equalsIgnoreCase(attribute) ){
 			    		mmAppname=value;
+			    		requiredFields.remove("mm.appName");
 			    	}
 		    	}
 		    }

@@ -4,8 +4,8 @@ public class Customer {
 
 	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
 	fleetNo, paperSize, msc, sortField, eog, dps, name1, name2, add1, add2, add3, add4, add5,
-	postcode, insertRef, envelope, mmBarcodeContent, eot, product;
-	private int sequence, batchSequence, noOfPages;
+	postcode, insertRef, envelope, mmBarcodeContent, eot, product, appName;
+	private int sequence, batchSequence, noOfPages, totalPagesInGroup;
 	float weight, size;
 	private Integer presentationPriority, originalIdx;
 	
@@ -29,6 +29,30 @@ public class Customer {
 	
 	
 	
+	public int getTotalPagesInGroup() {
+		return totalPagesInGroup;
+	}
+
+
+
+	public void setTotalPagesInGroup(int totalPagesInGroup) {
+		this.totalPagesInGroup = totalPagesInGroup;
+	}
+
+
+
+	public String getAppName() {
+		return appName;
+	}
+
+
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+
+
 	public String getProduct() {
 		return product;
 	}

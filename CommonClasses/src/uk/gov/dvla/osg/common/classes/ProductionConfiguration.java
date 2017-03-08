@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,121 +25,232 @@ public class ProductionConfiguration {
 		traySize, groupMaxEnglishMulti, groupMaxEnglishFleet, groupMaxEnglishClerical, groupMaxWelshMulti,
 		groupMaxWelshFleet, groupMaxWelshClerical;
 	
+	private HashSet<String> requiredFields = new HashSet<String>();
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 	public ProductionConfiguration(String filename){
 		this.filename=filename;
 		LOGGER.debug("Validating file '{}'",filename);
+		
+		loadRequiredFields();
+		
 		parseConfig(filename);
+		
+		if( requiredFields.size() != 0 ){
+			String missingFields = "";
+			for(String str : requiredFields){
+				missingFields = missingFields + str + ",";
+			}
+			
+			LOGGER.fatal("Missing values from '{}' are '{}'",filename,missingFields);
+			System.exit(1);
+		}
+		
+		if( !(isValid("SORT UNSORT X CHECK", "")) ){
+			LOGGER.fatal("Sorted and unsorted destinations cannot both be set to x.");
+			System.exit(1);
+		}
+		
 	}
 	
+	private void loadRequiredFields() {
+		requiredFields.add("site.english.fleet");
+		requiredFields.add("site.welsh.fleet");
+		requiredFields.add("site.english.multi");
+		requiredFields.add("site.welsh.multi");
+		requiredFields.add("site.english.unsorted");
+		requiredFields.add("site.welsh.unsorted");
+		requiredFields.add("site.english.sorted");
+		requiredFields.add("site.welsh.sorted");
+		requiredFields.add("site.english.clerical");
+		requiredFields.add("site.welsh.clerical");
+		requiredFields.add("site.english.reject");
+		requiredFields.add("site.welsh.reject");
+		requiredFields.add("site.english.reprint");
+		requiredFields.add("site.welsh.reprint");
+		requiredFields.add("site.mailing");
+		requiredFields.add("minimum.mailsort");
+		requiredFields.add("mailsort.preference.product");
+		requiredFields.add("batchMax.english.fleet");
+		requiredFields.add("batchMax.welsh.fleet");
+		requiredFields.add("batchMax.english.multi");
+		requiredFields.add("batchMax.welsh.multi");
+		requiredFields.add("batchMax.english.unsorted");
+		requiredFields.add("batchMax.welsh.unsorted");
+		requiredFields.add("batchMax.english.sorted");
+		requiredFields.add("batchMax.welsh.sorted");
+		requiredFields.add("batchMax.english.clerical");
+		requiredFields.add("batchMax.welsh.clerical");
+		requiredFields.add("batchMax.english.reject");
+		requiredFields.add("batchMax.welsh.reject");
+		requiredFields.add("batchMax.english.reprint");
+		requiredFields.add("batchMax.welsh.reprint");
+		requiredFields.add("traySize");
+		requiredFields.add("envelopeType");
+		requiredFields.add("envelope.english.unsorted");
+		requiredFields.add("envelope.welsh.unsorted");
+		requiredFields.add("envelope.english.ocr");
+		requiredFields.add("envelope.welsh.ocr");
+		requiredFields.add("envelope.english.mm");
+		requiredFields.add("envelope.welsh.mm");
+		requiredFields.add("groupMax.english.multi");
+		requiredFields.add("groupMax.english.fleet");
+		requiredFields.add("groupMax.english.clerical");
+		requiredFields.add("groupMax.welsh.multi");
+		requiredFields.add("groupMax.welsh.fleet");
+		requiredFields.add("groupMax.welsh.clerical");
+	}
+
 	private void parseConfig(String filename){
 		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
 			String line;
 		    while (  ((line = br.readLine()) != null) ) {
 		    	if( !(line.startsWith("#")) ){
-		    		String[] split = line.split("=");
-			    	String attribute = split[0];
-			    	String value = split[1];
+		    		String attribute = null, value = null;
+		    		try{
+		    			String[] split = line.split("=");
+				    	attribute = split[0];
+				    	value = split[1];
+		    		} catch(IndexOutOfBoundsException e){
+		    			LOGGER.error("Index out of bounds when processing file '{}', value in error='{}'",this.filename,line);
+		    		}
+		    		
 			    	if( "site.english.fleet".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishFleet=value;
+			    		requiredFields.remove("site.english.fleet");
 			    	} else if ( "site.welsh.fleet".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshFleet=value;
+			    		requiredFields.remove("site.welsh.fleet");
 			    	} else if ( "site.english.multi".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishMulti=value;
+			    		requiredFields.remove("site.english.multi");
 			    	} else if ( "site.welsh.multi".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshMulti=value;
+			    		requiredFields.remove("site.welsh.multi");
 			    	} else if ( "site.english.unsorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishUnsorted=value;
+			    		requiredFields.remove("site.english.unsorted");
 			    	} else if ( "site.welsh.unsorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshUnsorted=value;
+			    		requiredFields.remove("site.welsh.unsorted");
 			    	} else if ( "site.english.sorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishSorted=value;
+			    		requiredFields.remove("site.english.sorted");
 			    	} else if ( "site.welsh.sorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshSorted=value;
+			    		requiredFields.remove("site.welsh.sorted");
 			    	} else if ( "site.english.clerical".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishClerical=value;
+			    		requiredFields.remove("site.english.clerical");
 			    	} else if ( "site.welsh.clerical".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshClerical=value;
+			    		requiredFields.remove("site.welsh.clerical");
 			    	} else if ( "site.english.reject".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishReject=value;
+			    		requiredFields.remove("site.english.reject");
 			    	} else if ( "site.welsh.reject".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshReject=value;
+			    		requiredFields.remove("site.welsh.reject");
 			    	} else if ( "site.english.reprint".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.englishReprint=value;
+			    		requiredFields.remove("site.english.reprint");
 			    	} else if ( "site.welsh.reprint".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshReprint=value;
+			    		requiredFields.remove("site.welsh.reprint");
 			    	} else if ( "site.mailing".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.mailingSite=value;
+			    		requiredFields.remove("site.mailing");
 			    	} else if ( "minimum.mailsort".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.minimumMailsort=value;
+			    		requiredFields.remove("minimum.mailsort");
 			    	} else if ( "mailsort.preference.product".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.mailsortProduct=value;
-			    	} else if ( "site.english.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
-			    		this.englishSorting=value;
-			    	} else if ( "site.welsh.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
-			    		this.welshSorting=value;
+			    		requiredFields.remove("mailsort.preference.product");
 			    	} else if ( "batchMax.english.fleet".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishFleet=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.fleet");
 			    	} else if ( "batchMax.welsh.fleet".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshFleet=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.fleet");
 			    	} else if ( "batchMax.english.multi".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishMulti=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.multi");
 			    	} else if ( "batchMax.welsh.multi".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshMulti=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.multi");
 			    	} else if ( "batchMax.english.unsorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishUnsorted=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.unsorted");
 			    	} else if ( "batchMax.welsh.unsorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshUnsorted=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.unsorted");
 			    	} else if ( "batchMax.english.sorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishSorted=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.sorted");
 			    	} else if ( "batchMax.welsh.sorted".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshSorted=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.sorted");
 			    	} else if ( "batchMax.english.clerical".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishClerical=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.clerical");
 			    	} else if ( "batchMax.welsh.clerical".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshClerical=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.clerical");
 			    	} else if ( "batchMax.english.reject".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishReject=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.reject");
 			    	} else if ( "batchMax.welsh.reject".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshReject=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.reject");
 			    	} else if ( "batchMax.english.reprint".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishReprint=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.reprint");
 			    	} else if ( "batchMax.welsh.reprint".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshReprint=Integer.parseInt(value);
-			    	} else if ( "batchMax.english.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
-			    		this.batchMaxEnglishSorting=Integer.parseInt(value);
-			    	} else if ( "batchMax.welsh.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
-			    		this.batchMaxWelshSorting=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.reprint");
 			    	} else if ( "traySize".equalsIgnoreCase(attribute) ){
 			    		this.traySize=Integer.parseInt(value);
+			    		requiredFields.remove("traySize");
 			    	} else if ( "envelopeType".equalsIgnoreCase(attribute) ){
 			    		this.envelopeType=value;
+			    		requiredFields.remove("envelopeType");
 			    	} else if ( "envelope.english.unsorted".equalsIgnoreCase(attribute) ){
 			    		this.envelopeEnglishUnsorted=value;
+			    		requiredFields.remove("envelope.english.unsorted");
 			    	} else if ( "envelope.welsh.unsorted".equalsIgnoreCase(attribute) ){
 			    		envelopeWelshUnsorted=value;
+			    		requiredFields.remove("envelope.welsh.unsorted");
 			    	} else if ( "envelope.english.ocr".equalsIgnoreCase(attribute) ){
 			    		envelopeEnglishOcr=value;
+			    		requiredFields.remove("envelope.english.ocr");
 			    	} else if ( "envelope.welsh.ocr".equalsIgnoreCase(attribute) ){
 			    		envelopeWelshOcr=value;
+			    		requiredFields.remove("envelope.welsh.ocr");
 			    	} else if ( "envelope.english.mm".equalsIgnoreCase(attribute) ){
 			    		envelopeEnglishMm=value;
+			    		requiredFields.remove("envelope.english.mm");
 			    	} else if ( "envelope.welsh.mm".equalsIgnoreCase(attribute) ){
 			    		envelopeWelshMm=value;
+			    		requiredFields.remove("envelope.welsh.mm");
 			    	} else if ( "groupMax.english.multi".equalsIgnoreCase(attribute) ){
 			    		groupMaxEnglishMulti=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.english.multi");
 			    	} else if ( "groupMax.english.fleet".equalsIgnoreCase(attribute) ){
 			    		groupMaxEnglishFleet=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.english.fleet");
 			    	} else if ( "groupMax.english.clerical".equalsIgnoreCase(attribute) ){
 			    		groupMaxEnglishClerical=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.english.clerical");
 			    	} else if ( "groupMax.welsh.multi".equalsIgnoreCase(attribute) ){
 			    		groupMaxWelshMulti=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.welsh.multi");
 			    	} else if ( "groupMax.welsh.fleet".equalsIgnoreCase(attribute) ){
 			    		groupMaxWelshFleet=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.welsh.fleet");
 			    	} else if ( "groupMax.welsh.clerical".equalsIgnoreCase(attribute) ){
 			    		groupMaxWelshClerical=Integer.parseInt(value);
+			    		requiredFields.remove("groupMax.welsh.clerical");
 			    	}
 		    	}
 		    }
@@ -184,6 +296,14 @@ public class ProductionConfiguration {
 			result=false;
 	
 		}
+		if( "SORT UNSORT X CHECK".equalsIgnoreCase(att) ){
+			if( "X".equalsIgnoreCase(this.englishSorted) && "X".equalsIgnoreCase(this.englishUnsorted) ){
+				result=false;
+			}else if ( "X".equalsIgnoreCase(this.welshSorted) && "X".equalsIgnoreCase(this.welshUnsorted) ){
+				result=false;
+			}
+		}
+		
 		return result;
 	}
 	private boolean isNumeric(String s) {  
