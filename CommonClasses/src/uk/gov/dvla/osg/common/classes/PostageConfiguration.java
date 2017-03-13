@@ -78,7 +78,7 @@ public class PostageConfiguration {
 		requiredFields.add("ukm.minimumTrayVolume");
 		requiredFields.add("ukm.minimumCompliance");
 		requiredFields.add("ukm.batchTypes");
-		requiredFields.add("ukm.consignorFileDestination");
+		//requiredFields.add("ukm.consignorFileDestination");
 		requiredFields.add("ukm.consignorDestinationDepartment");
 		requiredFields.add("mm.machineable");
 		requiredFields.add("mm.appName");

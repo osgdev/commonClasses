@@ -65,6 +65,8 @@ public class ProductionConfiguration {
 		requiredFields.add("site.welsh.sorted");
 		requiredFields.add("site.english.clerical");
 		requiredFields.add("site.welsh.clerical");
+		requiredFields.add("site.english.sorting");
+		requiredFields.add("site.welsh.sorting");
 		requiredFields.add("site.english.reject");
 		requiredFields.add("site.welsh.reject");
 		requiredFields.add("site.english.reprint");
@@ -82,6 +84,8 @@ public class ProductionConfiguration {
 		requiredFields.add("batchMax.welsh.sorted");
 		requiredFields.add("batchMax.english.clerical");
 		requiredFields.add("batchMax.welsh.clerical");
+		requiredFields.add("batchMax.english.sorting");
+		requiredFields.add("batchMax.welsh.sorting");
 		requiredFields.add("batchMax.english.reject");
 		requiredFields.add("batchMax.welsh.reject");
 		requiredFields.add("batchMax.english.reprint");
@@ -158,6 +162,12 @@ public class ProductionConfiguration {
 			    	} else if ( "site.welsh.reprint".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.welshReprint=value;
 			    		requiredFields.remove("site.welsh.reprint");
+			    	} else if ( "site.english.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
+			    		this.englishSorting=value;
+			    		requiredFields.remove("site.english.sorting");
+			    	} else if ( "site.welsh.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
+			    		this.welshSorting=value;
+			    		requiredFields.remove("site.welsh.sorting");
 			    	} else if ( "site.mailing".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.mailingSite=value;
 			    		requiredFields.remove("site.mailing");
@@ -197,6 +207,12 @@ public class ProductionConfiguration {
 			    	} else if ( "batchMax.welsh.clerical".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxWelshClerical=Integer.parseInt(value);
 			    		requiredFields.remove("batchMax.welsh.clerical");
+			    	} else if ( "batchMax.english.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
+			    		this.batchMaxEnglishSorting=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.english.sorting");
+			    	} else if ( "batchMax.welsh.sorting".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
+			    		this.batchMaxWelshSorting=Integer.parseInt(value);
+			    		requiredFields.remove("batchMax.welsh.sorting");
 			    	} else if ( "batchMax.english.reject".equalsIgnoreCase(attribute) && isValid(attribute, value) ){
 			    		this.batchMaxEnglishReject=Integer.parseInt(value);
 			    		requiredFields.remove("batchMax.english.reject");
