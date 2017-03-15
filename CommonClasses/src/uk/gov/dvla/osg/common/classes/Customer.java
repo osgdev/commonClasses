@@ -4,7 +4,7 @@ public class Customer {
 
 	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
 	fleetNo, paperSize, msc, sortField, eog, dps, name1, name2, add1, add2, add3, add4, add5,
-	postcode, insertRef, envelope, mmBarcodeContent, eot, product, appName;
+	postcode, insertRef, envelope, mmBarcodeContent, sot, product, appName;
 	private int sequence, batchSequence, noOfPages, totalPagesInGroup;
 	float weight, size;
 	private Integer presentationPriority, originalIdx;
@@ -23,7 +23,7 @@ public class Customer {
 		this.paperSize=paperSize;
 		this.msc = msc;
 		this.eog="";
-		this.eot="";
+		this.sot="";
 		
 	};
 	
@@ -302,12 +302,12 @@ public class Customer {
 		this.mmBarcodeContent = mmBarcodeContent;
 	}
 
-	public String getEot() {
-		return eot;
+	public String getSot() {
+		return sot;
 	}
 
-	public void setEot(String eot) {
-		this.eot = eot;
+	public void setSot(String sot) {
+		this.sot = sot;
 	}
 
 	@Override
@@ -318,7 +318,7 @@ public class Customer {
 				groupId  + "," + noOfPages + "," + eog + "," + weight + "," + size + "," +
 				mmBarcodeContent + "," + eot;*/
 		
-		String str = docRef  + "," + lang + "," + batchSequence + "," + sequence + "," + msc + "," + batchType + "," + subBatch + "," + site + "," + eog + "," + eot; 
+		String str = docRef  + "," + lang + "," + batchSequence + "," + sequence + "," + msc + "," + batchType + "," + subBatch + "," + site + "," + eog + "," + sot; 
 		
 		
 		return str;
