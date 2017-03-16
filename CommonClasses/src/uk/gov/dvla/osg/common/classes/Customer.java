@@ -4,7 +4,7 @@ public class Customer {
 
 	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
 	fleetNo, paperSize, msc, sortField, eog, dps, name1, name2, add1, add2, add3, add4, add5,
-	postcode, insertRef, envelope, mmBarcodeContent, sot, product, appName;
+	postcode, insertRef, envelope, mmBarcodeContent, sot, product, appName, mmCustomerContent;
 	private int sequence, batchSequence, noOfPages, totalPagesInGroup;
 	float weight, size;
 	private Integer presentationPriority, originalIdx;
@@ -29,6 +29,18 @@ public class Customer {
 	
 	
 	
+	public String getMmCustomerContent() {
+		return mmCustomerContent;
+	}
+
+
+
+	public void setMmCustomerContent(String mmCustomerContent) {
+		this.mmCustomerContent = mmCustomerContent;
+	}
+
+
+
 	public int getTotalPagesInGroup() {
 		return totalPagesInGroup;
 	}
