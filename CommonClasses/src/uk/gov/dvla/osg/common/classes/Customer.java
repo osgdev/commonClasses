@@ -1,5 +1,7 @@
 package uk.gov.dvla.osg.common.classes;
 
+import java.util.Map;
+
 public class Customer {
 
 	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
@@ -332,6 +334,11 @@ public class Customer {
 
 	public void setSot(String sot) {
 		this.sot = sot;
+	}
+	
+	public void updateBatchType(String newBatchType, Map<String,Integer> map){
+		this.batchType = newBatchType;
+		this.presentationPriority = map.get(newBatchType);
 	}
 
 	@Override
