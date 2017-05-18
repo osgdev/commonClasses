@@ -339,6 +339,9 @@ public class Customer {
 	public void updateBatchType(String newBatchType, Map<String,Integer> map){
 		this.batchType = newBatchType;
 		this.presentationPriority = map.get(newBatchType);
+		if("UNSORTED".equalsIgnoreCase(newBatchType)){
+			this.msc="";
+		}
 	}
 
 	@Override
