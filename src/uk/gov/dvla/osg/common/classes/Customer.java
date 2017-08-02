@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Customer {
 
-	private String groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
+	private String tenDigitJidStr,groupId, docRef, selectorRef, lang, site, stationery, batchType, subBatch, jid, 
 	fleetNo, paperSize, msc, sortField, eog, dps, name1, name2, add1, add2, add3, add4, add5,
 	postcode, insertRef, envelope, mmBarcodeContent, sot, product, appName, mmCustomerContent;
 	private int sequence, batchSequence, noOfPages, totalPagesInGroup, tenDigitJid;
@@ -39,6 +39,19 @@ public class Customer {
 
 	public void setTenDigitJid(int tenDigitJid) {
 		this.tenDigitJid = tenDigitJid;
+		this.setTenDigitJidStr(Integer.toString(tenDigitJid));
+	}
+
+
+
+	public String getTenDigitJidStr() {
+		return tenDigitJidStr;
+	}
+
+
+
+	public void setTenDigitJidStr(String tenDigitJidStr) {
+		this.tenDigitJidStr = tenDigitJidStr;
 	}
 
 
