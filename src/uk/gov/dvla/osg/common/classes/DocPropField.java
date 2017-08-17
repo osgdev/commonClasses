@@ -10,7 +10,6 @@ public class DocPropField {
 		this.isRequiredInInputFile=isRequiredInInputFile;
 	}
 	
-	
 	public String getAttibuteValue() {
 		return attibuteValue;
 	}
@@ -28,6 +27,5 @@ public class DocPropField {
 	}
 	public void setRequiredInInputFile(boolean isRequiredInInputFile) {
 		this.isRequiredInInputFile = isRequiredInInputFile;
-	}
-	
+	}	
 }

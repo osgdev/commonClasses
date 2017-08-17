@@ -23,7 +23,7 @@ public class ProductionConfiguration {
 		batchMaxEnglishClerical, batchMaxWelshClerical, batchMaxEnglishReject, batchMaxWelshReject, 
 		batchMaxEnglishReprint, batchMaxWelshReprint, batchMaxEnglishSorting , batchMaxWelshSorting,
 		traySize, groupMaxEnglishMulti, groupMaxEnglishFleet, groupMaxEnglishClerical, groupMaxWelshMulti,
-		groupMaxWelshFleet, groupMaxWelshClerical;
+		groupMaxWelshFleet, groupMaxWelshClerical, maxMulti;
 	
 	private HashSet<String> requiredFields = new HashSet<String>();
 	
@@ -104,6 +104,7 @@ public class ProductionConfiguration {
 		requiredFields.add("groupMax.welsh.multi");
 		requiredFields.add("groupMax.welsh.fleet");
 		requiredFields.add("groupMax.welsh.clerical");
+		requiredFields.add("maxMulti");
 	}
 
 	private void parseConfig(String filename){
@@ -267,6 +268,9 @@ public class ProductionConfiguration {
 			    	} else if ( "groupMax.welsh.clerical".equalsIgnoreCase(attribute) ){
 			    		groupMaxWelshClerical=Integer.parseInt(value);
 			    		requiredFields.remove("groupMax.welsh.clerical");
+			    	} else if ( "maxMulti".equalsIgnoreCase(attribute) ){
+			    		maxMulti=Integer.parseInt(value);
+			    		requiredFields.remove("maxMulti");
 			    	}
 		    	}
 		    }
@@ -296,7 +300,7 @@ public class ProductionConfiguration {
 				}
 			}
 		}
-		if( att.startsWith("batchMax") || att.startsWith("batchmax") || att.startsWith("BATCHMAX") ){
+		if( att.startsWith("batchMax") || att.startsWith("batchmax") || att.startsWith("BATCHMAX") || att.equals("maxMulti")){
 			if( !(isNumeric(val)) ){
 				result = false;
 			}
@@ -724,6 +728,14 @@ public class ProductionConfiguration {
 
 	public void setGroupMaxWelshClerical(int groupMaxWelshClerical) {
 		this.groupMaxWelshClerical = groupMaxWelshClerical;
+	}
+
+	public int getMaxMulti() {
+		return maxMulti;
+	}
+
+	public void setMaxMulti(int maxMulti) {
+		this.maxMulti = maxMulti;
 	}
 	
 	
