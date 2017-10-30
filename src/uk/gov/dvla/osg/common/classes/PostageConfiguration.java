@@ -71,14 +71,14 @@ public class PostageConfiguration {
 		requiredFields.add("ukm.itemIDLookupFilename");
 		requiredFields.add("ukm.m.trayLookupFilename");
 		requiredFields.add("ukm.f.trayLookupFilename");
-		requiredFields.add("ukm.manifest.DestinationPath");
-		requiredFields.add("ukm.manifest.ArchivePath");
+		//requiredFields.add("ukm.manifest.DestinationPath");
+		//requiredFields.add("ukm.manifest.ArchivePath");
 		requiredFields.add("ukm.soapfile.DestinationPath");
 		requiredFields.add("ukm.soapfile.ArchivePath");
 		requiredFields.add("ukm.minimumTrayVolume");
 		requiredFields.add("ukm.minimumCompliance");
 		requiredFields.add("ukm.batchTypes");
-		//requiredFields.add("ukm.consignorFileDestination");
+		requiredFields.add("ukm.consignorFileDestination");
 		requiredFields.add("ukm.consignorDestinationDepartment");
 		requiredFields.add("mm.machineable");
 		requiredFields.add("mm.appName");
@@ -167,12 +167,12 @@ public class PostageConfiguration {
 			    	} else if( "ukm.f.trayLookupFilename".equalsIgnoreCase(attribute) ){
 			    		this.ukmFTrayLookupFile=value;
 			    		requiredFields.remove("ukm.f.trayLookupFilename");
-			    	} else if( "ukm.manifest.DestinationPath".equalsIgnoreCase(attribute) ){
-			    		this.ukmManifestDestination=value;
-			    		requiredFields.remove("ukm.manifest.DestinationPath");
-			    	} else if( "ukm.manifest.ArchivePath".equalsIgnoreCase(attribute) ){
-			    		this.ukmManifestArchive=value;
-			    		requiredFields.remove("ukm.manifest.ArchivePath");
+//			    	} else if( "ukm.manifest.DestinationPath".equalsIgnoreCase(attribute) ){
+//			    		this.ukmManifestDestination=value;
+//			    		requiredFields.remove("ukm.manifest.DestinationPath");
+//			    	} else if( "ukm.manifest.ArchivePath".equalsIgnoreCase(attribute) ){
+//			    		this.ukmManifestArchive=value;
+//			    		requiredFields.remove("ukm.manifest.ArchivePath");
 			    	} else if( "ukm.soapfile.DestinationPath".equalsIgnoreCase(attribute) ){
 			    		this.ukmSoapDestination=value;
 			    		requiredFields.remove("ukm.soapfile.DestinationPath");
@@ -420,21 +420,21 @@ public class PostageConfiguration {
 		this.ukmFTrayLookupFile = ukmFTrayLookupFile;
 	}
 
-	public String getUkmManifestDestination() {
-		return ukmManifestDestination;
-	}
+//	public String getUkmManifestDestination() {
+//		return ukmManifestDestination;
+//	}
 
-	public void setUkmManifestDestination(String ukmManifestDestination) {
-		this.ukmManifestDestination = ukmManifestDestination;
-	}
+//	public void setUkmManifestDestination(String ukmManifestDestination) {
+//		this.ukmManifestDestination = ukmManifestDestination;
+//	}
 
-	public String getUkmManifestArchive() {
-		return ukmManifestArchive;
-	}
+//	public String getUkmManifestArchive() {
+//		return ukmManifestArchive;
+//	}
 
-	public void setUkmManifestArchive(String ukmManifestArchive) {
-		this.ukmManifestArchive = ukmManifestArchive;
-	}
+//	public void setUkmManifestArchive(String ukmManifestArchive) {
+//		this.ukmManifestArchive = ukmManifestArchive;
+//	}
 
 	public String getUkmSoapDestination() {
 		return ukmSoapDestination;
@@ -508,6 +508,4 @@ public class PostageConfiguration {
 	public void setMmAppname(String mmAppname) {
 		this.mmAppname = mmAppname;
 	}
-	
-	
 }

@@ -349,11 +349,19 @@ public class Customer {
 		this.sot = sot;
 	}
 	
-	public void updateBatchType(String newBatchType, Map<String,Integer> map){
+	public void updateBatchTypeAndPres(String newBatchType, String subBatchType, Map<String, Integer> map){
 		this.batchType = newBatchType;
-		this.presentationPriority = map.get(newBatchType);
-		if("UNSORTED".equalsIgnoreCase(newBatchType)){
-			this.msc="";
+		this.subBatch = subBatchType;
+		
+		if(("").equals(subBatchType.trim())) {
+			this.setPresentationPriority(map.get(newBatchType));	
+		} else {
+			this.setPresentationPriority(map.get(newBatchType + "_" + subBatchType));
+		}
+
+    	if("UNSORTED".equalsIgnoreCase(newBatchType)){
+			this.setMsc(msc);
+			//this.msc="";
 		}
 	}
 
